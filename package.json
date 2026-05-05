@@ -1,0 +1,27 @@
+{
+  "name": "mgrs-pmtiles",
+  "version": "0.1.0",
+  "description": "MGRS-based Tasking Grid PMTiles (Hokkaido / 54T)",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "generate": "node src/generate-grids.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "mgrs",
+    "pmtiles",
+    "tasking",
+    "hokkaido",
+    "gis"
+  ],
+  "author": "UN Open GIS Initiative",
+  "license": "To be determined",
+  "dependencies": {
+    "mgrs": "^2.1.0"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0"
+  }
+}

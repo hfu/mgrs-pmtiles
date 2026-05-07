@@ -6,8 +6,7 @@ import { Protocol } from "pmtiles";
 import { DARK, layers as protomapsLayers } from "@protomaps/basemaps";
 import "./styles.css";
 
-const PMTILES_URL =
-  "https://huggingface.co/datasets/smartmaps/mgrs-pmtiles/resolve/main/mgrs-hokkaido.pmtiles";
+const MGRS_TILEJSON = "https://tunnel.optgeo.org/martin/mgrs-hokkaido";
 const BASEMAP_TILEJSON = "https://tunnel.optgeo.org/martin/protomaps-basemap";
 const TERRAIN_TILEJSON = "https://tunnel.optgeo.org/martin/mapterhorn";
 
@@ -176,7 +175,7 @@ map.on("load", () => {
 
   map.addSource("mgrs-pmtiles", {
     type: "vector",
-    url: `pmtiles://${PMTILES_URL}`,
+    url: MGRS_TILEJSON,
     maxzoom: 16,
   });
 

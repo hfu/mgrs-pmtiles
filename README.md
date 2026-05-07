@@ -103,14 +103,19 @@ just test-watch
 
 ## 配布/公開
 
-生成した PMTiles は Hugging Face Datasets にホストしています。
+Web ビューアは martin の MGRS タイルエンドポイントを利用します。
+
+- MGRS Vector Tile (TileJSON):
+  `https://tunnel.optgeo.org/martin/mgrs-hokkaido`
+- Basemap TileJSON:
+  `https://tunnel.optgeo.org/martin/protomaps-basemap`
+- Terrain DEM TileJSON:
+  `https://tunnel.optgeo.org/martin/mapterhorn`
+
+生成済み PMTiles は引き続き Hugging Face Datasets にも配置しています。
 
 - Datasets ページ:
   `https://huggingface.co/datasets/smartmaps/mgrs-pmtiles`
-- PMTiles URL:
-  `https://huggingface.co/datasets/smartmaps/mgrs-pmtiles/resolve/main/mgrs-hokkaido.pmtiles`
-- PMTiles Viewer:
-  `https://pmtiles.io/#url=https%3A%2F%2Fhuggingface.co%2Fdatasets%2Fsmartmaps%2Fmgrs-pmtiles%2Fresolve%2Fmain%2Fmgrs-hokkaido.pmtiles`
 
 ## 補足
 

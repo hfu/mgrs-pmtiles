@@ -31,8 +31,8 @@ MGRS-based Tasking Grid PMTiles.
 
 - `mgrs_100km`: minzoom 3 / maxzoom 7
 - `mgrs_10km`: minzoom 8 / maxzoom 10
-- `mgrs_1km`: minzoom 11 / maxzoom 12
-- `mgrs_100m`: minzoom 13 / maxzoom 16
+- `mgrs_1km`: minzoom 11 / maxzoom 14
+- `mgrs_100m`: minzoom 15 / maxzoom 16
 
 ## 依存関係
 

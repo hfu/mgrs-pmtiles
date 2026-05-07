@@ -13,8 +13,8 @@ describe('Layer Configuration', () => {
   const EXPECTED_LAYER_CONFIG = {
     mgrs_100km: { minzoom: 3, maxzoom: 7 },
     mgrs_10km: { minzoom: 8, maxzoom: 10 },
-    mgrs_1km: { minzoom: 11, maxzoom: 12 },
-    mgrs_100m: { minzoom: 13, maxzoom: 16 },
+    mgrs_1km: { minzoom: 11, maxzoom: 14 },
+    mgrs_100m: { minzoom: 15, maxzoom: 16 },
   };
 
   describe('Zoom Level Ranges', () => {
@@ -28,13 +28,13 @@ describe('Layer Configuration', () => {
       expect(EXPECTED_LAYER_CONFIG.mgrs_10km.maxzoom).toBe(10);
     });
 
-    it('1km layer has minzoom 11 and maxzoom 12', () => {
+    it('1km layer has minzoom 11 and maxzoom 14', () => {
       expect(EXPECTED_LAYER_CONFIG.mgrs_1km.minzoom).toBe(11);
-      expect(EXPECTED_LAYER_CONFIG.mgrs_1km.maxzoom).toBe(12);
+      expect(EXPECTED_LAYER_CONFIG.mgrs_1km.maxzoom).toBe(14);
     });
 
-    it('100m layer has minzoom 13 and maxzoom 16', () => {
-      expect(EXPECTED_LAYER_CONFIG.mgrs_100m.minzoom).toBe(13);
+    it('100m layer has minzoom 15 and maxzoom 16', () => {
+      expect(EXPECTED_LAYER_CONFIG.mgrs_100m.minzoom).toBe(15);
       expect(EXPECTED_LAYER_CONFIG.mgrs_100m.maxzoom).toBe(16);
     });
   });
@@ -57,20 +57,18 @@ describe('Layer Configuration', () => {
   });
 
   describe('Complete Coverage', () => {
-    it('all layers combined cover z0 to z16 without overlap gaps', () => {
-      // 100km: z3-7, 10km: z8-10, 1km: z11-12, 100m: z13-16
+    it('all layers combined match the intended ranges without internal gaps', () => {
+      // 100km: z3-7, 10km: z8-10, 1km: z11-14, 100m: z15-16
       const allRanges = [
         [3, 7],
         [8, 10],
-        [11, 12],
-        [13, 16],
+        [11, 14],
+        [15, 16],
       ];
 
-      for (let i = 0; i < allRanges.length - 1; i++) {
-        const endOfCurrent = allRanges[i][1];
-        const startOfNext = allRanges[i + 1][0];
-        expect(startOfNext).toBe(endOfCurrent + 1);
-      }
+      expect(allRanges[1][0]).toBe(allRanges[0][1] + 1);
+      expect(allRanges[2][0]).toBe(allRanges[1][1] + 1);
+      expect(allRanges[3][0]).toBe(allRanges[2][1] + 1);
     });
 
     it('zoom 0-2 are not covered (no layer assigned)', () => {

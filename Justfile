@@ -13,6 +13,18 @@ init:
 smoke-just:
   @echo "just is working on this machine."
 
+build:
+  @echo "Building GitHub Pages site into docs/..."
+  @npm run build
+
+dev:
+  @echo "Starting Vite dev server with LAN access..."
+  @npm run dev -- --host
+
+preview:
+  @echo "Starting Vite preview server with LAN access..."
+  @npm run preview -- --host
+
 test:
   @echo "Running MGRS grid tests..."
   @npm test

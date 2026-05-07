@@ -32,8 +32,8 @@ const REGION_PROFILES = {
 const LAYER_CONFIG = {
   mgrs_100km: { minzoom: 3, maxzoom: 7 },
   mgrs_10km: { minzoom: 8, maxzoom: 10 },
-  mgrs_1km: { minzoom: 11, maxzoom: 12 },
-  mgrs_100m: { minzoom: 13, maxzoom: 16 },
+  mgrs_1km: { minzoom: 11, maxzoom: 14 },
+  mgrs_100m: { minzoom: 15, maxzoom: 16 },
 };
 
 const LAT_BANDS = 'CDEFGHJKLMNPQRSTUVWX';
@@ -223,6 +223,37 @@ function create100kmPolygonFromMGRS(gridCode) {
   return [sw, se, ne, nw, sw];
 }
 
+function getLabelLayerName(layerName) {
+  return `${layerName}_label_points`;
+}
+
+function getPolygonCentroid(polygonCoords) {
+  const ring = polygonCoords.slice(0, -1);
+  if (ring.length < 3) {
+    return ring[0] || polygonCoords[0];
+  }
+
+  let twiceArea = 0;
+  let sumX = 0;
+  let sumY = 0;
+
+  for (let i = 0; i < ring.length; i++) {
+    const [x1, y1] = ring[i];
+    const [x2, y2] = ring[(i + 1) % ring.length];
+    const cross = x1 * y2 - x2 * y1;
+    twiceArea += cross;
+    sumX += (x1 + x2) * cross;
+    sumY += (y1 + y2) * cross;
+  }
+
+  if (Math.abs(twiceArea) < 1e-12) {
+    return ring[0];
+  }
+
+  const inv = 1 / (3 * twiceArea);
+  return [sumX * inv, sumY * inv];
+}
+
 function emitFeature(layerName, mgrsCode, polygonCoords, resolution) {
   const cfg = LAYER_CONFIG[layerName];
   const feature = {
@@ -243,6 +274,25 @@ function emitFeature(layerName, mgrsCode, polygonCoords, resolution) {
   };
 
   writeLine(JSON.stringify(feature));
+
+  const labelFeature = {
+    type: 'Feature',
+    tippecanoe: {
+      layer: getLabelLayerName(layerName),
+      minzoom: cfg.minzoom,
+      maxzoom: cfg.maxzoom,
+    },
+    properties: {
+      mgrs: mgrsCode,
+      resolution,
+    },
+    geometry: {
+      type: 'Point',
+      coordinates: getPolygonCentroid(polygonCoords),
+    },
+  };
+
+  writeLine(JSON.stringify(labelFeature));
 }
 
 function discover100kmPrefixes(profile) {

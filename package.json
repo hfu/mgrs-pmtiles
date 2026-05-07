@@ -5,7 +5,10 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
+    "build": "vite build --config vite.config.js",
+    "dev": "vite --config vite.config.js",
     "generate": "node src/generate-grids.js",
+    "preview": "vite preview --config vite.config.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -19,9 +22,15 @@
   "author": "UN Open GIS Initiative",
   "license": "To be determined",
   "dependencies": {
-    "mgrs": "^2.1.0"
+    "@protomaps/basemaps": "5.7.2",
+    "maplibre-gl": "5.24.0",
+    "maplibre-gl-layer-control": "0.14.1",
+    "mgrs": "2.1.0",
+    "pmtiles": "4.4.1"
   },
   "devDependencies": {
-    "vitest": "^1.0.0"
+    "vite": "8.0.10",
+    "vite-plugin-singlefile": "2.3.3",
+    "vitest": "1.0.0"
   }
 }

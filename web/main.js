@@ -7,7 +7,6 @@ import "./styles.css";
 
 const MGRS_TILEJSON = "https://tunnel.optgeo.org/martin/mgrs-hokkaido";
 const GSI_STYLE_URL = "https://gsi-cyberjapan.github.io/optimal_bvmap/style/std.json";
-const TERRAIN_TILEJSON = "https://tunnel.optgeo.org/martin/mapterhorn";
 
 try {
   const protocol = new Protocol();
@@ -18,36 +17,8 @@ try {
 
 let style = {
   version: 8,
-  sources: {
-    "terrain-dem": {
-      type: "raster-dem",
-      url: TERRAIN_TILEJSON,
-      encoding: "terrarium",
-      tileSize: 256,
-      maxzoom: 14,
-    },
-    "terrain-hillshade": {
-      type: "raster-dem",
-      url: TERRAIN_TILEJSON,
-      encoding: "terrarium",
-      tileSize: 256,
-      maxzoom: 14,
-    },
-  },
-  layers: [
-    {
-      id: "terrain-hillshade",
-      type: "hillshade",
-      source: "terrain-hillshade",
-      paint: {
-        "hillshade-highlight-color": "rgba(255,255,255,0.15)",
-        "hillshade-shadow-color": "rgba(0,0,0,0.35)",
-        "hillshade-accent-color": "rgba(180,140,100,0.2)",
-        "hillshade-illumination-direction": 315,
-        "hillshade-exaggeration": 1.0,
-      },
-    },
-  ],
+  sources: {},
+  layers: [],
 };
 
 const statusBar = document.getElementById("status-bar");
@@ -208,7 +179,6 @@ let map;
     });
 
     map.on("load", () => {
-      map.setTerrain({ source: "terrain-dem", exaggeration: 1.0 });
 
       map.on("styleimagemissing", (event) => {
         if (map.hasImage(event.id)) {
@@ -236,7 +206,7 @@ let map;
           source: "mgrs-pmtiles",
           "source-layer": "mgrs_100km",
           paint: {
-            "line-color": "#00FF00",
+            "line-color": "#003399",
             "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.6, 9, 2.2],
           },
           minzoom: gridZoomBands["100km"].minzoom,
@@ -248,7 +218,7 @@ let map;
           source: "mgrs-pmtiles",
           "source-layer": "mgrs_10km",
           paint: {
-            "line-color": "#00FF00",
+            "line-color": "#003399",
             "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0.35, 13, 1.4],
           },
           minzoom: gridZoomBands["10km"].minzoom,
@@ -260,7 +230,7 @@ let map;
           source: "mgrs-pmtiles",
           "source-layer": "mgrs_1km",
           paint: {
-            "line-color": "#00FF00",
+            "line-color": "#003399",
             "line-width": ["interpolate", ["linear"], ["zoom"], 11, 0.25, 16, 1.1],
           },
           minzoom: gridZoomBands["1km"].minzoom,
@@ -272,7 +242,7 @@ let map;
           source: "mgrs-pmtiles",
           "source-layer": "mgrs_100m",
           paint: {
-            "line-color": "#00FF00",
+            "line-color": "#003399",
             "line-opacity": 0.75,
             "line-width": ["interpolate", ["linear"], ["zoom"], 15, 0.2, 18, 0.9],
           },
@@ -304,7 +274,7 @@ let map;
             "text-padding": 1,
           },
           paint: {
-            "text-color": "#00FF00",
+            "text-color": "#003399",
             "text-opacity": spec.opacity,
           },
         });
@@ -329,7 +299,7 @@ let map;
             "text-padding": 1,
           },
           paint: {
-            "text-color": "#00FF00",
+            "text-color": "#003399",
             "text-opacity": spec.opacity,
           },
         });

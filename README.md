@@ -103,14 +103,14 @@ just test-watch
 
 ## 配布/公開
 
-Web ビューアは martin の MGRS タイルエンドポイントを利用します。
+Web ビューアは国土地理院（GSI）の最適化ベクトルタイルをベースマップとして使用し、自動的に読み込まれます。
 
-- MGRS Vector Tile (TileJSON):
-  `https://tunnel.optgeo.org/martin/mgrs-hokkaido`
-- Basemap TileJSON:
-  `https://tunnel.optgeo.org/martin/protomaps-basemap`
-- Terrain DEM TileJSON:
-  `https://tunnel.optgeo.org/martin/mapterhorn`
+- **GSI 最適化ベクトルタイル** (自動読み込み):
+  - スタイル JSON: `https://gsi-cyberjapan.github.io/optimal_bvmap/style/std.json`
+- **MGRS Vector Tile** (TileJSON):
+  - `https://tunnel.optgeo.org/martin/mgrs-hokkaido`
+- **Terrain DEM** (TileJSON):
+  - `https://tunnel.optgeo.org/martin/mapterhorn`
 
 生成済み PMTiles は引き続き Hugging Face Datasets にも配置しています。
 

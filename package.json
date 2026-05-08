@@ -22,7 +22,6 @@
   "author": "UN Open GIS Initiative",
   "license": "To be determined",
   "dependencies": {
-    "@protomaps/basemaps": "5.7.2",
     "maplibre-gl": "5.24.0",
     "maplibre-gl-layer-control": "0.14.1",
     "mgrs": "2.1.0",

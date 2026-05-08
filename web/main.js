@@ -231,20 +231,6 @@ let map;
 
       const overlayLayers = [
         {
-          id: "mgrs-100km-line-blur",
-          type: "line",
-          source: "mgrs-pmtiles",
-          "source-layer": "mgrs_100km",
-          paint: {
-            "line-color": "#ffffff",
-            "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.2, 9, 3.2],
-            "line-opacity": 0.4,
-            "line-blur": 1.5,
-          },
-          minzoom: gridZoomBands["100km"].minzoom,
-          maxzoom: gridZoomBands["100km"].maxzoom,
-        },
-        {
           id: "mgrs-100km-line",
           type: "line",
           source: "mgrs-pmtiles",
@@ -255,20 +241,6 @@ let map;
           },
           minzoom: gridZoomBands["100km"].minzoom,
           maxzoom: gridZoomBands["100km"].maxzoom,
-        },
-        {
-          id: "mgrs-10km-line-blur",
-          type: "line",
-          source: "mgrs-pmtiles",
-          "source-layer": "mgrs_10km",
-          paint: {
-            "line-color": "#ffffff",
-            "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0.7, 13, 2.4],
-            "line-opacity": 0.4,
-            "line-blur": 1.5,
-          },
-          minzoom: gridZoomBands["10km"].minzoom,
-          maxzoom: gridZoomBands["10km"].maxzoom,
         },
         {
           id: "mgrs-10km-line",
@@ -283,20 +255,6 @@ let map;
           maxzoom: gridZoomBands["10km"].maxzoom,
         },
         {
-          id: "mgrs-1km-line-blur",
-          type: "line",
-          source: "mgrs-pmtiles",
-          "source-layer": "mgrs_1km",
-          paint: {
-            "line-color": "#ffffff",
-            "line-width": ["interpolate", ["linear"], ["zoom"], 11, 0.5, 16, 2.1],
-            "line-opacity": 0.4,
-            "line-blur": 1.5,
-          },
-          minzoom: gridZoomBands["1km"].minzoom,
-          maxzoom: gridZoomBands["1km"].maxzoom,
-        },
-        {
           id: "mgrs-1km-line",
           type: "line",
           source: "mgrs-pmtiles",
@@ -307,20 +265,6 @@ let map;
           },
           minzoom: gridZoomBands["1km"].minzoom,
           maxzoom: gridZoomBands["1km"].maxzoom,
-        },
-        {
-          id: "mgrs-100m-line-blur",
-          type: "line",
-          source: "mgrs-pmtiles",
-          "source-layer": "mgrs_100m",
-          paint: {
-            "line-color": "#ffffff",
-            "line-opacity": 0.3,
-            "line-width": ["interpolate", ["linear"], ["zoom"], 15, 0.4, 18, 1.8],
-            "line-blur": 1.5,
-          },
-          minzoom: gridZoomBands["100m"].minzoom,
-          maxzoom: gridZoomBands["100m"].maxzoom,
         },
         {
           id: "mgrs-100m-line",
@@ -361,8 +305,6 @@ let map;
           },
           paint: {
             "text-color": "#00FF00",
-            "text-halo-color": "rgba(0, 0, 0, 0.72)",
-            "text-halo-width": 1.4,
             "text-opacity": spec.opacity,
           },
         });
@@ -388,8 +330,6 @@ let map;
           },
           paint: {
             "text-color": "#00FF00",
-            "text-halo-color": "rgba(0, 0, 0, 0.72)",
-            "text-halo-width": 1.5,
             "text-opacity": spec.opacity,
           },
         });

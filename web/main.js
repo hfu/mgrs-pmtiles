@@ -257,8 +257,8 @@ let map;
             "text-padding": 2,
           },
           paint: {
-            "text-color": "rgba(224, 241, 255, 0.86)",
-            "text-halo-color": "rgba(7, 11, 15, 0.92)",
+            "text-color": "rgba(7, 11, 15, 0.92)",
+            "text-halo-color": "rgba(224, 241, 255, 0.86)",
             "text-halo-width": 1.1,
           },
         });

@@ -71,34 +71,82 @@ const gridZoomBands = {
   "100m": { minzoom: 15, maxzoom: 22 },
 };
 
-const labelSpecs = [
+// 100km centroid labels (2-letter square ID, e.g. "VN")
+const centroidLabelSpecs = [
   {
     id: "mgrs-100km-label",
     sourceLayer: "mgrs_100km_label_points",
     minzoom: 5,
     maxzoom: gridZoomBands["100km"].maxzoom,
-    textSizeStops: [5, 4, 6, 12, 7.2, 24, 8, 28],
+    textSizeStops: [5, 10, 6, 18, 7.2, 30, 8, 38],
+    anchor: "center",
+    opacity: 0.72,
   },
+];
+
+// Edge labels: easting (bottom-edge midpoint) and northing (right-edge midpoint).
+// text-anchor "top"  → label hangs below the bottom grid line.
+// text-anchor "left" → label extends rightward from the right grid line.
+const edgeLabelSpecs = [
   {
-    id: "mgrs-10km-label",
-    sourceLayer: "mgrs_10km_label_points",
+    id: "mgrs-10km-label-e",
+    sourceLayer: "mgrs_10km_label_e",
     minzoom: 8.5,
     maxzoom: gridZoomBands["10km"].maxzoom,
-    textSizeStops: [8, 3, 9, 12, 10, 20, 11, 28],
+    textSizeStops: [8.5, 10, 10, 16, 11, 22],
+    anchor: "top",
+    offset: [0, 0.25],
+    opacity: 0.78,
   },
   {
-    id: "mgrs-1km-label",
-    sourceLayer: "mgrs_1km_label_points",
+    id: "mgrs-10km-label-n",
+    sourceLayer: "mgrs_10km_label_n",
+    minzoom: 8.5,
+    maxzoom: gridZoomBands["10km"].maxzoom,
+    textSizeStops: [8.5, 10, 10, 16, 11, 22],
+    anchor: "left",
+    offset: [0.25, 0],
+    opacity: 0.78,
+  },
+  {
+    id: "mgrs-1km-label-e",
+    sourceLayer: "mgrs_1km_label_e",
     minzoom: 11.5,
     maxzoom: gridZoomBands["1km"].maxzoom,
-    textSizeStops: [11, 3, 12, 9, 13, 20, 14, 28, 15, 34],
+    textSizeStops: [11.5, 9, 13, 14, 15, 18],
+    anchor: "top",
+    offset: [0, 0.25],
+    opacity: 0.78,
   },
   {
-    id: "mgrs-100m-label",
-    sourceLayer: "mgrs_100m_label_points",
+    id: "mgrs-1km-label-n",
+    sourceLayer: "mgrs_1km_label_n",
+    minzoom: 11.5,
+    maxzoom: gridZoomBands["1km"].maxzoom,
+    textSizeStops: [11.5, 9, 13, 14, 15, 18],
+    anchor: "left",
+    offset: [0.25, 0],
+    opacity: 0.78,
+  },
+  {
+    id: "mgrs-100m-label-e",
+    sourceLayer: "mgrs_100m_label_e",
     minzoom: 15.5,
     maxzoom: gridZoomBands["100m"].maxzoom,
-    textSizeStops: [15.5, 6, 16, 10, 18, 16, 20, 22, 22, 28],
+    textSizeStops: [15.5, 8, 17, 12, 19, 16],
+    anchor: "top",
+    offset: [0, 0.25],
+    opacity: 0.78,
+  },
+  {
+    id: "mgrs-100m-label-n",
+    sourceLayer: "mgrs_100m_label_n",
+    minzoom: 15.5,
+    maxzoom: gridZoomBands["100m"].maxzoom,
+    textSizeStops: [15.5, 8, 17, 12, 19, 16],
+    anchor: "left",
+    offset: [0.25, 0],
+    opacity: 0.78,
   },
 ];
 
@@ -183,6 +231,20 @@ let map;
 
       const overlayLayers = [
         {
+          id: "mgrs-100km-line-blur",
+          type: "line",
+          source: "mgrs-pmtiles",
+          "source-layer": "mgrs_100km",
+          paint: {
+            "line-color": "#ffffff",
+            "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.2, 9, 3.2],
+            "line-opacity": 0.4,
+            "line-blur": 1.5,
+          },
+          minzoom: gridZoomBands["100km"].minzoom,
+          maxzoom: gridZoomBands["100km"].maxzoom,
+        },
+        {
           id: "mgrs-100km-line",
           type: "line",
           source: "mgrs-pmtiles",
@@ -193,6 +255,20 @@ let map;
           },
           minzoom: gridZoomBands["100km"].minzoom,
           maxzoom: gridZoomBands["100km"].maxzoom,
+        },
+        {
+          id: "mgrs-10km-line-blur",
+          type: "line",
+          source: "mgrs-pmtiles",
+          "source-layer": "mgrs_10km",
+          paint: {
+            "line-color": "#ffffff",
+            "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0.7, 13, 2.4],
+            "line-opacity": 0.4,
+            "line-blur": 1.5,
+          },
+          minzoom: gridZoomBands["10km"].minzoom,
+          maxzoom: gridZoomBands["10km"].maxzoom,
         },
         {
           id: "mgrs-10km-line",
@@ -207,6 +283,20 @@ let map;
           maxzoom: gridZoomBands["10km"].maxzoom,
         },
         {
+          id: "mgrs-1km-line-blur",
+          type: "line",
+          source: "mgrs-pmtiles",
+          "source-layer": "mgrs_1km",
+          paint: {
+            "line-color": "#ffffff",
+            "line-width": ["interpolate", ["linear"], ["zoom"], 11, 0.5, 16, 2.1],
+            "line-opacity": 0.4,
+            "line-blur": 1.5,
+          },
+          minzoom: gridZoomBands["1km"].minzoom,
+          maxzoom: gridZoomBands["1km"].maxzoom,
+        },
+        {
           id: "mgrs-1km-line",
           type: "line",
           source: "mgrs-pmtiles",
@@ -217,6 +307,20 @@ let map;
           },
           minzoom: gridZoomBands["1km"].minzoom,
           maxzoom: gridZoomBands["1km"].maxzoom,
+        },
+        {
+          id: "mgrs-100m-line-blur",
+          type: "line",
+          source: "mgrs-pmtiles",
+          "source-layer": "mgrs_100m",
+          paint: {
+            "line-color": "#ffffff",
+            "line-opacity": 0.3,
+            "line-width": ["interpolate", ["linear"], ["zoom"], 15, 0.4, 18, 1.8],
+            "line-blur": 1.5,
+          },
+          minzoom: gridZoomBands["100m"].minzoom,
+          maxzoom: gridZoomBands["100m"].maxzoom,
         },
         {
           id: "mgrs-100m-line",
@@ -238,7 +342,7 @@ let map;
         overlayLayerIds.push(layer.id);
       }
 
-      for (const spec of labelSpecs) {
+      for (const spec of centroidLabelSpecs) {
         map.addLayer({
           id: spec.id,
           type: "symbol",
@@ -247,19 +351,46 @@ let map;
           minzoom: spec.minzoom,
           maxzoom: spec.maxzoom,
           layout: {
-            "text-field": ["get", "mgrs"],
+            "text-field": ["get", "label"],
             "text-font": ["sans-serif"],
             "text-size": ["interpolate", ["linear"], ["zoom"], ...spec.textSizeStops],
             "text-allow-overlap": false,
-            "text-anchor": "center",
+            "text-anchor": spec.anchor,
             "text-justify": "center",
-            "text-radial-offset": 0,
+            "text-padding": 3,
+          },
+          paint: {
+            "text-color": "rgba(7, 11, 15, 0.92)",
+            "text-halo-color": "rgba(224, 241, 255, 0.9)",
+            "text-halo-width": 1.4,
+            "text-opacity": spec.opacity,
+          },
+        });
+        overlayLayerIds.push(spec.id);
+      }
+
+      for (const spec of edgeLabelSpecs) {
+        map.addLayer({
+          id: spec.id,
+          type: "symbol",
+          source: "mgrs-pmtiles",
+          "source-layer": spec.sourceLayer,
+          minzoom: spec.minzoom,
+          maxzoom: spec.maxzoom,
+          layout: {
+            "text-field": ["get", "label"],
+            "text-font": ["sans-serif"],
+            "text-size": ["interpolate", ["linear"], ["zoom"], ...spec.textSizeStops],
+            "text-allow-overlap": false,
+            "text-anchor": spec.anchor,
+            "text-offset": spec.offset,
             "text-padding": 2,
           },
           paint: {
             "text-color": "rgba(7, 11, 15, 0.92)",
-            "text-halo-color": "rgba(224, 241, 255, 0.86)",
-            "text-halo-width": 1.1,
+            "text-halo-color": "rgba(224, 241, 255, 0.9)",
+            "text-halo-width": 1.2,
+            "text-opacity": spec.opacity,
           },
         });
         overlayLayerIds.push(spec.id);

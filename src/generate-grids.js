@@ -254,6 +254,45 @@ function getPolygonCentroid(polygonCoords) {
   return [sumX * inv, sumY * inv];
 }
 
+// Emit easting (bottom edge) and northing (right edge) label points for subgrid layers.
+// - Bottom edge midpoint: labels show the abbreviated easting (column) digit(s).
+// - Right edge midpoint: labels show the abbreviated northing (row) digit(s).
+function emitSubgridLabels(layerName, mgrsCode, polygonCoords, digitsPerAxis) {
+  const cfg = LAYER_CONFIG[layerName];
+  const ring = polygonCoords.slice(0, -1);
+
+  let minLon = Infinity;
+  let minLat = Infinity;
+  let maxLon = -Infinity;
+  let maxLat = -Infinity;
+  for (const [lon, lat] of ring) {
+    if (lon < minLon) minLon = lon;
+    if (lat < minLat) minLat = lat;
+    if (lon > maxLon) maxLon = lon;
+    if (lat > maxLat) maxLat = lat;
+  }
+
+  const numeric = mgrsCode.slice(5);
+  const easting = numeric.slice(0, digitsPerAxis);
+  const northing = numeric.slice(digitsPerAxis);
+
+  // Easting label at bottom-edge midpoint
+  writeLine(JSON.stringify({
+    type: 'Feature',
+    tippecanoe: { layer: `${layerName}_label_e`, minzoom: cfg.minzoom, maxzoom: cfg.maxzoom },
+    properties: { mgrs: mgrsCode, label: easting },
+    geometry: { type: 'Point', coordinates: [(minLon + maxLon) / 2, minLat] },
+  }));
+
+  // Northing label at right-edge midpoint
+  writeLine(JSON.stringify({
+    type: 'Feature',
+    tippecanoe: { layer: `${layerName}_label_n`, minzoom: cfg.minzoom, maxzoom: cfg.maxzoom },
+    properties: { mgrs: mgrsCode, label: northing },
+    geometry: { type: 'Point', coordinates: [maxLon, (minLat + maxLat) / 2] },
+  }));
+}
+
 function emitFeature(layerName, mgrsCode, polygonCoords, resolution) {
   const cfg = LAYER_CONFIG[layerName];
   const feature = {
@@ -275,24 +314,31 @@ function emitFeature(layerName, mgrsCode, polygonCoords, resolution) {
 
   writeLine(JSON.stringify(feature));
 
-  const labelFeature = {
-    type: 'Feature',
-    tippecanoe: {
-      layer: getLabelLayerName(layerName),
-      minzoom: cfg.minzoom,
-      maxzoom: cfg.maxzoom,
-    },
-    properties: {
-      mgrs: mgrsCode,
-      resolution,
-    },
-    geometry: {
-      type: 'Point',
-      coordinates: getPolygonCentroid(polygonCoords),
-    },
-  };
-
-  writeLine(JSON.stringify(labelFeature));
+  if (layerName === 'mgrs_100km') {
+    // Centroid label showing the 2-letter 100km square ID (e.g. "VN" from "54TVN")
+    const labelFeature = {
+      type: 'Feature',
+      tippecanoe: {
+        layer: getLabelLayerName(layerName),
+        minzoom: cfg.minzoom,
+        maxzoom: cfg.maxzoom,
+      },
+      properties: {
+        mgrs: mgrsCode,
+        label: mgrsCode.slice(3),
+        resolution,
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: getPolygonCentroid(polygonCoords),
+      },
+    };
+    writeLine(JSON.stringify(labelFeature));
+  } else {
+    // Edge labels: bottom midpoint = easting, right midpoint = northing
+    const digitsPerAxis = resolution === '10km' ? 1 : resolution === '1km' ? 2 : 3;
+    emitSubgridLabels(layerName, mgrsCode, polygonCoords, digitsPerAxis);
+  }
 }
 
 function discover100kmPrefixes(profile) {

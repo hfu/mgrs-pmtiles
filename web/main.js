@@ -183,23 +183,12 @@ let map;
 
       const overlayLayers = [
         {
-          id: "mgrs-100km-fill",
-          type: "fill",
-          source: "mgrs-pmtiles",
-          "source-layer": "mgrs_100km",
-          paint: {
-            "fill-color": "rgba(63, 186, 255, 0.08)",
-          },
-          minzoom: gridZoomBands["100km"].minzoom,
-          maxzoom: gridZoomBands["100km"].maxzoom,
-        },
-        {
           id: "mgrs-100km-line",
           type: "line",
           source: "mgrs-pmtiles",
           "source-layer": "mgrs_100km",
           paint: {
-            "line-color": "#6fc7ff",
+            "line-color": "#00FF00",
             "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.6, 9, 2.2],
           },
           minzoom: gridZoomBands["100km"].minzoom,
@@ -211,7 +200,7 @@ let map;
           source: "mgrs-pmtiles",
           "source-layer": "mgrs_10km",
           paint: {
-            "line-color": "#9ed4ff",
+            "line-color": "#00FF00",
             "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0.35, 13, 1.4],
           },
           minzoom: gridZoomBands["10km"].minzoom,
@@ -223,7 +212,7 @@ let map;
           source: "mgrs-pmtiles",
           "source-layer": "mgrs_1km",
           paint: {
-            "line-color": "#d8eeff",
+            "line-color": "#00FF00",
             "line-width": ["interpolate", ["linear"], ["zoom"], 11, 0.25, 16, 1.1],
           },
           minzoom: gridZoomBands["1km"].minzoom,
@@ -235,7 +224,7 @@ let map;
           source: "mgrs-pmtiles",
           "source-layer": "mgrs_100m",
           paint: {
-            "line-color": "#ffffff",
+            "line-color": "#00FF00",
             "line-opacity": 0.75,
             "line-width": ["interpolate", ["linear"], ["zoom"], 15, 0.2, 18, 0.9],
           },
